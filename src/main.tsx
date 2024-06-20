@@ -1,14 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import Class from "./pages/Class.tsx";
-import Function from "./pages/Function.tsx";
+// import App from "./App";
+// import Class from "./pages/Class";
+// import Function from "./pages/Function";
+import Position from "./pages/Position";
 import "./index.css";
+import "../main.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    {/* <App />
     <Class />
-    <Function />
+    <Function /> */}
+    <Position />
   </React.StrictMode>
 );

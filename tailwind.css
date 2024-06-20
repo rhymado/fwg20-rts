@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .item {
+    @apply bg-white text-black border-2 border-solid border-blue-900 w-2/5 m-0.5 p-0.5;
+  }
+  #root {
+    @apply w-full bg-antwhite min-h-2screen;
+  }
+}
