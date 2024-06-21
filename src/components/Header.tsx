@@ -17,6 +17,9 @@ function Header() {
           <Link to="/shop">
             <li className="cursor-pointer select-none text-white">Shop</li>
           </Link>
+          <Link to="/login" className="ml-auto">
+            <li className="cursor-pointer select-none text-white">Sign In</li>
+          </Link>
         </ul>
       </nav>
     </header>

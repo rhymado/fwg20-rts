@@ -6,6 +6,7 @@ import Position from "./pages/Position";
 import Shop from "./pages/Shop";
 
 import Header from "./components/Header";
+import Auth from "./pages/Auth";
 
 function Error() {
   return <div>Error</div>;
@@ -69,6 +70,10 @@ const routerWithChildren = createBrowserRouter([
       {
         path: "shop",
         element: <Shop />,
+      },
+      {
+        path: "login",
+        element: <Auth />,
       },
       {
         path: "*",
