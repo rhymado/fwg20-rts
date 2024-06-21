@@ -7,6 +7,10 @@ import Profile from "../components/Profile";
 import publicFormIcon from "/form-icon.png";
 import assetsFormIcon from "../assets/form-icon.png";
 
+// type I<T> = {
+//   [key: string]: T;
+// };
+
 interface IUser {
   name: string;
   address: string;
@@ -33,7 +37,7 @@ function Function() {
       ...form,
       [e.target.name]: e.target.value,
     };
-    if (e.target.value === "") delete (newFormState as Record<string, string | undefined>)[e.target.name];
+    if (e.target.value === "") delete newFormState[e.target.name as keyof IForm];
     setForm(newFormState);
   }
   function onSubmitHandler() {
