@@ -10,6 +10,9 @@ export default {
       colors: {
         antwhite: "antiquewhite",
       },
+      borderWidth: {
+        1: "1px",
+      },
     },
   },
   plugins: [],
