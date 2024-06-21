@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  * {
+    @apply text-black;
+  }
+  input {
+    @apply bg-white;
+  }
+}
+
 @layer components {
   .item {
     @apply bg-white text-black border-2 border-solid border-blue-900 w-2/5 m-0.5 p-0.5;

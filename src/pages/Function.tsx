@@ -2,6 +2,7 @@
 import { useState } from "react";
 
 import Profile from "../components/Profile";
+// import Header from "../components/Header";
 
 import publicFormIcon from "/form-icon.png";
 import assetsFormIcon from "../assets/form-icon.png";
@@ -47,24 +48,27 @@ function Function() {
     setUser({ name: "", address: "" });
   }
   return (
-    <div style={{ marginBottom: "100px" }}>
-      <img src={publicFormIcon} alt="form-icon" />
-      <img src={assetsFormIcon} alt="form-icon" />
-      <button style={{ display: "block", width: "100%" }} onClick={getUser}>
-        Get User
-      </button>
-      <form style={{ display: "flex", flexDirection: "column", textAlign: "left" }}>
-        <label htmlFor="user-name">Name</label>
-        <input type="text" id="user-name" name="name" value={form.name || ""} onChange={onInputChange} />
-        <label htmlFor="user-address">Address</label>
-        <input type="text" id="user-address" name="address" value={form.address || ""} onChange={onInputChange} />
-        <button type="button" onClick={onSubmitHandler}>
-          Change User
+    <>
+      {/* <Header /> */}
+      <div style={{ marginBottom: "100px" }}>
+        <img src={publicFormIcon} alt="form-icon" />
+        <img src={assetsFormIcon} alt="form-icon" />
+        <button style={{ display: "block", width: "100%" }} onClick={getUser}>
+          Get User
         </button>
-      </form>
-      <button onClick={onDeleteHandler}>Delete User</button>
-      {user.name && user.address && <Profile name={user.name} address={user.address} />}
-    </div>
+        <form style={{ display: "flex", flexDirection: "column", textAlign: "left" }}>
+          <label htmlFor="user-name">Name</label>
+          <input type="text" id="user-name" name="name" value={form.name || ""} onChange={onInputChange} />
+          <label htmlFor="user-address">Address</label>
+          <input type="text" id="user-address" name="address" value={form.address || ""} onChange={onInputChange} />
+          <button type="button" onClick={onSubmitHandler}>
+            Change User
+          </button>
+        </form>
+        <button onClick={onDeleteHandler}>Delete User</button>
+        {user.name && user.address && <Profile name={user.name} address={user.address} />}
+      </div>
+    </>
   );
 }
 

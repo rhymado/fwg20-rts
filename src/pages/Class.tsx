@@ -1,9 +1,16 @@
 // rce
 import { Component } from "react";
 
+// import Header from "../components/Header";
+
 class Class extends Component {
   render() {
-    return <div>Class</div>;
+    return (
+      <>
+        {/* <Header /> */}
+        <div>Class</div>
+      </>
+    );
   }
 }
 

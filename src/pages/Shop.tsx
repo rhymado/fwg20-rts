@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
 
+// import Header from "../components/Header";
+
 function Product({ name, price, stocked }: { name: string; price: string; stocked: boolean }) {
   return (
     <>
@@ -44,69 +46,72 @@ function Shop() {
   const [search, setSearch] = useState("");
   const [availableOnly, setAvailableOnly] = useState(false);
   return (
-    <main className="p-4 text-black">
-      <section className="flex flex-col">
-        <div className="mb-2">
-          <label htmlFor="search" className="hidden">
-            Search
-          </label>
-          <input
-            className="p-1 bg-white"
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Search..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+    <>
+      {/* <Header /> */}
+      <main className="p-4 text-black">
+        <section className="flex flex-col">
+          <div className="mb-2">
+            <label htmlFor="search" className="hidden">
+              Search
+            </label>
+            <input
+              className="p-1 bg-white"
+              type="text"
+              name="search"
+              id="search"
+              placeholder="Search..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              className="mr-2"
+              type="checkbox"
+              name="available"
+              id="available"
+              checked={availableOnly}
+              onChange={(e) => setAvailableOnly(e.target.checked)}
+            />
+            <label htmlFor="available">Only show products in stock</label>
+          </div>
+        </section>
+        <section>
+          <div className="flex">
+            <p className="flex-1 text-center font-bold text-xl">Name</p>
+            <p className="flex-1 text-center font-bold text-xl">Price</p>
+          </div>
+          <ProductList
+            category="Fruits"
+            products={shop
+              .filter((item) => {
+                return item.category === "Fruits";
+              })
+              .filter((item) => {
+                if (!availableOnly) return true;
+                return item.stocked;
+              })
+              .filter((item) => {
+                if (!search) return true;
+                return item.name.includes(search);
+              })}
           />
-        </div>
-        <div>
-          <input
-            className="mr-2"
-            type="checkbox"
-            name="available"
-            id="available"
-            checked={availableOnly}
-            onChange={(e) => setAvailableOnly(e.target.checked)}
+          <ProductList
+            category="Vegetables"
+            products={shop
+              .filter((item) => item.category === "Vegetables")
+              .filter((item) => {
+                if (!availableOnly) return true;
+                return item.stocked;
+              })
+              .filter((item) => {
+                if (!search) return true;
+                return item.name.includes(search);
+              })}
           />
-          <label htmlFor="available">Only show products in stock</label>
-        </div>
-      </section>
-      <section>
-        <div className="flex">
-          <p className="flex-1 text-center font-bold text-xl">Name</p>
-          <p className="flex-1 text-center font-bold text-xl">Price</p>
-        </div>
-        <ProductList
-          category="Fruits"
-          products={shop
-            .filter((item) => {
-              return item.category === "Fruits";
-            })
-            .filter((item) => {
-              if (!availableOnly) return true;
-              return item.stocked;
-            })
-            .filter((item) => {
-              if (!search) return true;
-              return item.name.includes(search);
-            })}
-        />
-        <ProductList
-          category="Vegetables"
-          products={shop
-            .filter((item) => item.category === "Vegetables")
-            .filter((item) => {
-              if (!availableOnly) return true;
-              return item.stocked;
-            })
-            .filter((item) => {
-              if (!search) return true;
-              return item.name.includes(search);
-            })}
-        />
-      </section>
-    </main>
+        </section>
+      </main>
+    </>
   );
 }
 
