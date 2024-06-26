@@ -1,4 +1,4 @@
-import { Outlet, createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter, useOutletContext } from "react-router-dom";
 
 import Class from "./pages/Class";
 import Function from "./pages/Function";
@@ -7,13 +7,15 @@ import Shop from "./pages/Shop";
 
 import Header from "./components/Header";
 import Auth from "./pages/Auth";
+import { useState } from "react";
 
 function Error() {
   return <div>Error</div>;
 }
 
 function NotFound() {
-  return <div>Route Not Found</div>;
+  const { value } = useOutletData();
+  return <div>Route Not Found | {value}</div>;
 }
 
 // const router = createBrowserRouter([
@@ -41,12 +43,22 @@ function NotFound() {
 // ]);
 
 function Home() {
+  const [nilai, setNilai] = useState(0);
   return (
     <>
       <Header />
-      <Outlet />
+      <Outlet context={{ value: nilai, setValue: setNilai } satisfies OutletContext} />
     </>
   );
+}
+
+type OutletContext = {
+  value: number;
+  setValue: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export function useOutletData() {
+  return useOutletContext<OutletContext>();
 }
 
 const routerWithChildren = createBrowserRouter([
