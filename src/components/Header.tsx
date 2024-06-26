@@ -20,6 +20,9 @@ function Header() {
             <li className="cursor-pointer select-none text-white">
               <Link to="/shop">Shop</Link>
             </li>
+            <li className="cursor-pointer select-none text-white">
+              <Link to="/todos">Todos</Link>
+            </li>
             <li className="cursor-pointer select-none text-white ml-auto">
               <Link to="/login">Sign In</Link>
             </li>

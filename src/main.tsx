@@ -7,8 +7,12 @@ import "./styles/main.css";
 
 import router from "./router";
 
+import { TodosProvider } from "./contexts/todos";
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
-  <RouterProvider router={router} />
+  <TodosProvider>
+    <RouterProvider router={router} />
+  </TodosProvider>
   // </React.StrictMode>
 );

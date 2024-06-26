@@ -1,4 +1,5 @@
 import { Outlet, createBrowserRouter, useOutletContext } from "react-router-dom";
+import { useState } from "react";
 
 import Class from "./pages/Class";
 import Function from "./pages/Function";
@@ -7,7 +8,7 @@ import Shop from "./pages/Shop";
 
 import Header from "./components/Header";
 import Auth from "./pages/Auth";
-import { useState } from "react";
+import Todos from "./pages/Todos";
 
 function Error() {
   return <div>Error</div>;
@@ -86,6 +87,10 @@ const routerWithChildren = createBrowserRouter([
       {
         path: "login",
         element: <Auth />,
+      },
+      {
+        path: "todos",
+        element: <Todos />,
       },
       {
         path: "*",

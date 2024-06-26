@@ -1,8 +1,11 @@
 import { useState, useMemo } from "react";
+// import { useOutletData } from "../router";
 
 // import Header from "../components/Header";
 
 function Product({ name, price, stocked }: { name: string; price: string; stocked: boolean }) {
+  // const { value } = useOutletData();
+  // console.log(value);
   return (
     <>
       <p className={`${stocked ? "text-black" : "text-red-600"} border-solid border-1 border-black p-1`}>{name}</p>

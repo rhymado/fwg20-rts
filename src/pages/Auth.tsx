@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { useOutletData } from "../router";
+import { useTodos } from "../contexts/todos";
 
 function Auth() {
   const [form, setForm] = useState<{ nis: string; pwd: string }>({ nis: "", pwd: "" });
@@ -24,6 +25,8 @@ function Auth() {
   };
   const { value, setValue } = useOutletData();
   const navigate = useNavigate();
+  const { todos } = useTodos();
+  console.log(todos);
   return (
     <>
       <form onSubmit={onSubmitHandler}>
