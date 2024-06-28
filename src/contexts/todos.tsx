@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 type todo = {
   id: string;
@@ -19,22 +19,33 @@ export function useTodos() {
 }
 
 export function TodosProvider({ children }: { children: JSX.Element }) {
-  const [todos, setTodos] = useState<todo[]>([]);
-  const addTodo = ({ id, todo }: todo) => {
+  const [todos, setTodos] = useState<todo[]>(() => {
+    // cek nilai todos di local storage
+    const todosLocal = localStorage.getItem("todos");
+    // console.log(todosLocal);
+    if (!todosLocal) return []; // jika tidak ada berikan nilai default
+    return JSON.parse(todosLocal);
+  });
+  useEffect(() => {
+    // jika todos berubah, perbaharui nilai todos di localstorage
+    const newTodosLocal = JSON.stringify(todos);
+    localStorage.setItem("todos", newTodosLocal);
+  }, [todos]);
+  const addTodo = useCallback(({ id, todo }: todo) => {
     if (!id || !todo) return;
     const newTodo = { id, todo };
     setTodos((todos) => [...todos, newTodo]);
-  };
-  const editTodo = ({ id, todo }: todo) => {
+  }, []);
+  const editTodo = useCallback(({ id, todo }: todo) => {
     const editedTodos = todos.map((item) => {
       if (item.id === id) return { ...item, todo };
       return item;
     });
     setTodos(editedTodos);
-  };
-  const deleteTodo = (id: string) => {
+  }, []);
+  const deleteTodo = useCallback((id: string) => {
     const filteredTodo = todos.filter((todo) => todo.id !== id);
     setTodos(filteredTodo);
-  };
+  }, []);
   return <todosContext.Provider value={{ todos, addTodo, editTodo, deleteTodo }}>{children}</todosContext.Provider>;
 }
