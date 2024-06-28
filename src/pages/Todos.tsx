@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useTodos } from "../contexts/todos";
+// import { useAuth } from "../contexts/auth";
+// import { Navigate } from "react-router-dom";
 
 function Todo({ todo, onDelete, onEdit }: { todo: string; onDelete: () => void; onEdit: (todo: string) => void }) {
   const [inputActive, setInputActive] = useState(false);
@@ -8,7 +10,12 @@ function Todo({ todo, onDelete, onEdit }: { todo: string; onDelete: () => void; 
     <li className="p-2 my-2 border-2 border-black border-solid flex w-full bg-stone-500 text-white gap-2">
       {inputActive ? (
         <>
-          <input className="p-2 text-xl text-black" type="text" value={todoVal} onChange={(e) => setTodoVal(e.target.value)} />
+          <input
+            className="p-2 text-xl text-black"
+            type="text"
+            value={todoVal}
+            onChange={(e) => setTodoVal(e.target.value)}
+          />
           <button
             className="p-2 border-2 border-white border-solid select-none cursor-pointer"
             onClick={() => {
@@ -39,6 +46,7 @@ function Todo({ todo, onDelete, onEdit }: { todo: string; onDelete: () => void; 
 }
 
 function Todos() {
+  // const { token } = useAuth();
   const { todos, deleteTodo, editTodo, addTodo } = useTodos();
   const [form, setForm] = useState({ id: "", todo: "" });
   const [error, setError] = useState(false);
@@ -53,6 +61,9 @@ function Todos() {
       [e.target.name]: e.target.value,
     }));
   };
+
+  // if (!token) return <Navigate to={"/login"} replace />;
+
   return (
     <>
       <form
@@ -63,7 +74,9 @@ function Todos() {
           setForm({ id: "", todo: "" });
         }}
       >
-        <label htmlFor="id" className="mr-2">id</label>
+        <label htmlFor="id" className="mr-2">
+          id
+        </label>
         <input
           className={`border-2 border-solid border-black ${error && "border-red-500"} outline-none p-2`}
           type="text"
@@ -72,7 +85,9 @@ function Todos() {
           value={form.id}
           onChange={onFormChange}
         />
-        <label htmlFor="todo" className="mr-2">todo</label>
+        <label htmlFor="todo" className="mr-2">
+          todo
+        </label>
         <input
           className="border-2 border-solid border-black outline-none p-2"
           type="text"

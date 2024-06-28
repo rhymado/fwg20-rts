@@ -9,6 +9,7 @@ import Shop from "./pages/Shop";
 import Header from "./components/Header";
 import Auth from "./pages/Auth";
 import Todos from "./pages/Todos";
+import PrivateRoute from "./components/PrivateRoute";
 
 function Error() {
   return <div>Error</div>;
@@ -90,7 +91,11 @@ const routerWithChildren = createBrowserRouter([
       },
       {
         path: "todos",
-        element: <Todos />,
+        element: (
+          <PrivateRoute to={"/login"}>
+            <Todos />
+          </PrivateRoute>
+        ),
       },
       {
         path: "*",

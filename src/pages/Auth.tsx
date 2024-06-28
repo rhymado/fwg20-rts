@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { useOutletData } from "../router";
-import useLocalStorage from "../hooks/useLocalStorage";
+import { useAuth } from "../contexts/auth";
 
 interface AuthResponse {
   msg: string;
@@ -11,7 +11,7 @@ interface AuthResponse {
 }
 
 function Auth() {
-  const [, setToken] = useLocalStorage<string>("", "token");
+  const { token, onAuthStateChanged } = useAuth();
   const [form, setForm] = useState<{ nis: string; pwd: string }>({ nis: "", pwd: "" });
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((form) => {
@@ -26,11 +26,16 @@ function Auth() {
     const url = "https://fwg20-backend.vercel.app/siswa/account";
     axios
       .post(url, form)
-      .then((result: AxiosResponse<AuthResponse>) => setToken(result.data.data[0].token))
+      .then((result: AxiosResponse<AuthResponse>) => {
+        onAuthStateChanged(result.data.data[0].token);
+      })
       .catch((err) => console.error(err));
   };
   const { value, setValue } = useOutletData();
   const navigate = useNavigate();
+  useEffect(() => {
+    if (token) navigate("/shop");
+  }, [token]);
   return (
     <>
       <form onSubmit={onSubmitHandler}>
