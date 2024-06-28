@@ -3,9 +3,15 @@ import axios, { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { useOutletData } from "../router";
-import { useTodos } from "../contexts/todos";
+import useLocalStorage from "../hooks/useLocalStorage";
+
+interface AuthResponse {
+  msg: string;
+  data: { token: string }[];
+}
 
 function Auth() {
+  const [, setToken] = useLocalStorage<string>("", "token");
   const [form, setForm] = useState<{ nis: string; pwd: string }>({ nis: "", pwd: "" });
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((form) => {
@@ -20,13 +26,11 @@ function Auth() {
     const url = "https://fwg20-backend.vercel.app/siswa/account";
     axios
       .post(url, form)
-      .then((result: AxiosResponse) => console.log(result.data))
+      .then((result: AxiosResponse<AuthResponse>) => setToken(result.data.data[0].token))
       .catch((err) => console.error(err));
   };
   const { value, setValue } = useOutletData();
   const navigate = useNavigate();
-  const { todos } = useTodos();
-  console.log(todos);
   return (
     <>
       <form onSubmit={onSubmitHandler}>

@@ -1,4 +1,5 @@
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext } from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 type todo = {
   id: string;
@@ -19,18 +20,19 @@ export function useTodos() {
 }
 
 export function TodosProvider({ children }: { children: JSX.Element }) {
-  const [todos, setTodos] = useState<todo[]>(() => {
-    // cek nilai todos di local storage
-    const todosLocal = localStorage.getItem("todos");
-    // console.log(todosLocal);
-    if (!todosLocal) return []; // jika tidak ada berikan nilai default
-    return JSON.parse(todosLocal);
-  });
-  useEffect(() => {
-    // jika todos berubah, perbaharui nilai todos di localstorage
-    const newTodosLocal = JSON.stringify(todos);
-    localStorage.setItem("todos", newTodosLocal);
-  }, [todos]);
+  const [todos, setTodos] = useLocalStorage<todo[]>([], "todos");
+  // const [todos, setTodos] = useState<todo[]>(() => {
+  //   // cek nilai todos di local storage
+  //   const todosLocal = localStorage.getItem("todos");
+  //   // console.log(todosLocal);
+  //   if (!todosLocal) return []; // jika tidak ada berikan nilai default
+  //   return JSON.parse(todosLocal);
+  // });
+  // useEffect(() => {
+  //   // jika todos berubah, perbaharui nilai todos di localstorage
+  //   const newTodosLocal = JSON.stringify(todos);
+  //   localStorage.setItem("todos", newTodosLocal);
+  // }, [todos]);
   const addTodo = useCallback(({ id, todo }: todo) => {
     if (!id || !todo) return;
     const newTodo = { id, todo };
