@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { useTodos } from "../contexts/todos";
+import { useStoreDispatch, useStoreSelector } from "../redux/hooks";
+import { addTodo, deleteTodo, editTodo } from "../redux/slices/todos";
+// import { useTodos } from "../contexts/todos";
 // import { useAuth } from "../contexts/auth";
 // import { Navigate } from "react-router-dom";
 
@@ -47,7 +49,9 @@ function Todo({ todo, onDelete, onEdit }: { todo: string; onDelete: () => void; 
 
 function Todos() {
   // const { token } = useAuth();
-  const { todos, deleteTodo, editTodo, addTodo } = useTodos();
+  // const { todos, deleteTodo, editTodo, addTodo } = useTodos();
+  const { todos } = useStoreSelector((state) => state.todos);
+  const dispatch = useStoreDispatch();
   const [form, setForm] = useState({ id: "", todo: "" });
   const [error, setError] = useState(false);
   const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +74,7 @@ function Todos() {
         onSubmit={(e) => {
           e.preventDefault();
           if (error) return;
-          addTodo({ id: form.id, todo: form.todo });
+          dispatch(addTodo({ id: form.id, todo: form.todo }));
           setForm({ id: "", todo: "" });
         }}
       >
@@ -105,8 +109,8 @@ function Todos() {
           <Todo
             todo={todo.todo}
             key={todo.id}
-            onDelete={() => deleteTodo(todo.id)}
-            onEdit={(text) => editTodo({ id: todo.id, todo: text })}
+            onDelete={() => dispatch(deleteTodo({ id: todo.id }))}
+            onEdit={(text) => dispatch(editTodo({ id: todo.id, todo: text }))}
           />
         ))}
       </ul>

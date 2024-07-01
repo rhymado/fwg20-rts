@@ -8,18 +8,14 @@ import "./styles/main.css";
 
 import router from "./router";
 
-import { TodosProvider } from "./contexts/todos";
+// import { TodosProvider } from "./contexts/todos";
 // import { AuthProvider } from "./contexts/auth";
 import store from "./redux/store";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
   <ReduxProvider store={store}>
-    {/* <AuthProvider> */}
-    <TodosProvider>
-      <RouterProvider router={router} />
-    </TodosProvider>
-    {/* </AuthProvider> */}
+    <RouterProvider router={router} />
   </ReduxProvider>
   // </React.StrictMode>
 );
