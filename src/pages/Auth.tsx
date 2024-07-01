@@ -3,7 +3,9 @@ import axios, { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { useOutletData } from "../router";
-import { useAuth } from "../contexts/auth";
+// import { useAuth } from "../contexts/auth";
+import { useStoreSelector, useStoreDispatch } from "../redux/hooks";
+import { setToken } from "../redux/slices/auth";
 
 interface AuthResponse {
   msg: string;
@@ -11,7 +13,9 @@ interface AuthResponse {
 }
 
 function Auth() {
-  const { token, onAuthStateChanged } = useAuth();
+  // const { token, onAuthStateChanged } = useAuth();
+  const { token } = useStoreSelector((state) => state.auth);
+  const dispatch = useStoreDispatch();
   const [form, setForm] = useState<{ nis: string; pwd: string }>({ nis: "", pwd: "" });
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((form) => {
@@ -27,7 +31,8 @@ function Auth() {
     axios
       .post(url, form)
       .then((result: AxiosResponse<AuthResponse>) => {
-        onAuthStateChanged(result.data.data[0].token);
+        // onAuthStateChanged(result.data.data[0].token);
+        dispatch(setToken({ token: result.data.data[0].token }));
       })
       .catch((err) => console.error(err));
   };
