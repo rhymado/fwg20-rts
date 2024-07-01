@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
-import axios, { AxiosResponse } from "axios";
+// import axios, { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { useOutletData } from "../router";
 // import { useAuth } from "../contexts/auth";
 import { useStoreSelector, useStoreDispatch } from "../redux/hooks";
-import { setToken } from "../redux/slices/auth";
+import { authAction } from "../redux/slices/auth";
 
-interface AuthResponse {
-  msg: string;
-  data: { token: string }[];
-}
+// interface AuthResponse {
+//   msg: string;
+//   data: { token: string }[];
+// }
 
 function Auth() {
   // const { token, onAuthStateChanged } = useAuth();
   const { token } = useStoreSelector((state) => state.auth);
   const dispatch = useStoreDispatch();
+  const { loginThunk } = authAction;
   const [form, setForm] = useState<{ nis: string; pwd: string }>({ nis: "", pwd: "" });
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((form) => {
@@ -27,14 +28,15 @@ function Auth() {
   };
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const url = "https://fwg20-backend.vercel.app/siswa/account";
-    axios
-      .post(url, form)
-      .then((result: AxiosResponse<AuthResponse>) => {
-        // onAuthStateChanged(result.data.data[0].token);
-        dispatch(setToken({ token: result.data.data[0].token }));
-      })
-      .catch((err) => console.error(err));
+    // const url = "https://fwg20-backend.vercel.app/siswa/account";
+    // axios
+    //   .post(url, form)
+    //   .then((result: AxiosResponse<AuthResponse>) => {
+    //     // onAuthStateChanged(result.data.data[0].token);
+    //     dispatch(setToken({ token: result.data.data[0].token }));
+    //   })
+    //   .catch((err) => console.error(err));
+    dispatch(loginThunk(form));
   };
   const { value, setValue } = useOutletData();
   const navigate = useNavigate();
