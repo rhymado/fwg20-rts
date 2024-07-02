@@ -33,4 +33,5 @@ const todosSlice = createSlice({
 });
 
 export const { addTodo, editTodo, deleteTodo } = todosSlice.actions;
+export type TodosState = ReturnType<typeof todosSlice.reducer>;
 export default todosSlice.reducer;

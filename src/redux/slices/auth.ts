@@ -79,4 +79,5 @@ export const authAction = {
   ...authSlice.actions,
   loginThunk,
 };
+export type AuthState = ReturnType<typeof authSlice.reducer>;
 export default authSlice.reducer;
