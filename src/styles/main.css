@@ -847,6 +847,14 @@ input {
   border-color: rgb(37 99 235 / var(--tw-border-opacity));
 }
 
+.disabled\:cursor-not-allowed:disabled {
+  cursor: not-allowed;
+}
+
+.disabled\:cursor-progress:disabled {
+  cursor: progress;
+}
+
 @media (min-width: 768px) {
   .md\:flex {
     display: flex;

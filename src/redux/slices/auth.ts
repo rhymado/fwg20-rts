@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 interface IAuthState {
   token: string;
@@ -20,19 +20,20 @@ const initialState = {
   isRejected: false,
 } satisfies IAuthState as IAuthState;
 
-const loginThunk = createAsyncThunk<string, { nis: string; pwd: string }, { rejectValue: { error: Error } }>(
-  "auth/login",
-  async (form, { rejectWithValue }) => {
-    try {
-      const url = "https://fwg20-backend.vercel.app/siswa/account";
-      const result: AxiosResponse<AuthResponse> = await axios.post(url, form);
-      return result.data.data[0].token;
-    } catch (error) {
-      if (error instanceof Error) return rejectWithValue({ error });
-      return String(error);
-    }
+const loginThunk = createAsyncThunk<
+  string,
+  { nis: string; pwd: string },
+  { rejectValue: { error: Error; status?: number } }
+>("auth/login", async (form, { rejectWithValue }) => {
+  try {
+    const url = "https://fwg20-backend.vercel.app/siswa/account";
+    const result: AxiosResponse<AuthResponse> = await axios.post(url, form);
+    return result.data.data[0].token;
+  } catch (error) {
+    if (error instanceof AxiosError) return rejectWithValue({ error: error.response?.data, status: error.status });
+    return String(error);
   }
-);
+});
 
 const authSlice = createSlice({
   name: "auth",

@@ -14,7 +14,7 @@ import { authAction } from "../redux/slices/auth";
 
 function Auth() {
   // const { token, onAuthStateChanged } = useAuth();
-  const { token } = useStoreSelector((state) => state.auth);
+  const { token, isLoading } = useStoreSelector((state) => state.auth);
   const dispatch = useStoreDispatch();
   const { loginThunk } = authAction;
   const [form, setForm] = useState<{ nis: string; pwd: string }>({ nis: "", pwd: "" });
@@ -50,7 +50,13 @@ function Auth() {
         <input type="text" name="nis" id="nis" value={form.nis} onChange={onChangeHandler} />
         <label htmlFor="pwd">Password</label>
         <input type="password" name="pwd" id="pwd" value={form.pwd} onChange={onChangeHandler} />
-        <button type="submit">LOGIN</button>
+        <button
+          type="submit"
+          className="select-none cursor-pointer border-2 border-black border-solid p-2 my-2 text-xl disabled:cursor-progress"
+          disabled={isLoading}
+        >
+          {isLoading ? "loading..." : "LOGIN"}
+        </button>
       </form>
       <section>
         <button
