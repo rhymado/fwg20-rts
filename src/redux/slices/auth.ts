@@ -20,7 +20,7 @@ const initialState = {
   isRejected: false,
 } satisfies IAuthState as IAuthState;
 
-const loginThunk = createAsyncThunk<string, { nis: string; pwd: string }>(
+const loginThunk = createAsyncThunk<string, { nis: string; pwd: string }, { rejectValue: { error: Error } }>(
   "auth/login",
   async (form, { rejectWithValue }) => {
     try {
@@ -28,7 +28,8 @@ const loginThunk = createAsyncThunk<string, { nis: string; pwd: string }>(
       const result: AxiosResponse<AuthResponse> = await axios.post(url, form);
       return result.data.data[0].token;
     } catch (error) {
-      return rejectWithValue({ error });
+      if (error instanceof Error) return rejectWithValue({ error });
+      return String(error);
     }
   }
 );
